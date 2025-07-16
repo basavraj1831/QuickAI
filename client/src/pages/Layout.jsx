@@ -17,12 +17,12 @@ const Layout = () => {
         {sidebar ? (
           <X
             onClick={() => setSidebar(false)}
-            className="w-6 h-6 text-gray-600 sm:hidden"
+            className="w-6 h-6 text-gray-600 sm:hidden cursor-pointer"
           />
         ) : (
           <Menu
             onClick={() => setSidebar(true)}
-            className="w-6 h-6 text-gray-600 sm:hidden"
+            className="w-6 h-6 text-gray-600 sm:hidden cursor-pointer" 
           />
         )}
       </nav>
