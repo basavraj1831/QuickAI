@@ -5,6 +5,7 @@ import { clerkMiddleware, requireAuth } from "@clerk/express";
 import aiRouter from "./routes/aiRoute.js";
 import connectCloudinary from "./configs/cloudinary.js";
 import userRouter from "./routes/userRoute.js";
+import resumeRouter from "./routes/resumeRoute.js";
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(clerkMiddleware());
 
 app.use(requireAuth());
 app.use("/api/ai", aiRouter);
+app.use("/api/resume", resumeRouter);
 app.use("/api/user", userRouter);
 
 

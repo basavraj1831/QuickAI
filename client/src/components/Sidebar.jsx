@@ -1,6 +1,7 @@
 import { Protect, useClerk, useUser } from "@clerk/clerk-react";
 import {
   Eraser,
+  FilePen,
   FileText,
   Hash,
   House,
@@ -21,6 +22,7 @@ const navItems = [
   { to: "/ai/remove-background", label: "Remove Background", Icon: Eraser },
   { to: "/ai/remove-object", label: "Remove Object", Icon: Scissors },
   { to: "/ai/review-resume", label: "Review Resume", Icon: FileText },
+  { to: "/ai/build-resume", label: "Build Resume", Icon: FilePen  },
   { to: "/ai/community", label: "Community", Icon: Users },
 ];
 

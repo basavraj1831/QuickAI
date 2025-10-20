@@ -5,6 +5,7 @@ import axios from "axios";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 import pdf from "pdf-parse/lib/pdf-parse.js";
+import imagekit from "../configs/imagekit.js";
 
 const AI = new OpenAI({
   apiKey: process.env.GEMINI_API_KEY,
@@ -168,6 +169,7 @@ export const removeBackground = async (req, res) => {
     const image = req.file;
     const plan = req.plan;
 
+
     if (plan !== "premium") {
       return res.json({
         success: false,
@@ -278,6 +280,69 @@ export const reviewResume = async (req, res) => {
     await sql`INSERT INTO creations (user_id, prompt, content, type) VALUES (${userId}, 'Review the uploaded resume' , ${content}, 'review')`;
 
     res.json({ success: true, content });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const enhanceProfessionalSummary = async (req, res) => {
+  try {
+    const { userContent } = req.body;
+    if (!userContent) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+    const response = await AI.chat.completions.create({
+      model: "gemini-2.0-flash",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are an expert in resume writing. Your task is to enhance the professional summary of a resume. The summary should be 1-2 sentences also highlighting key skills, experience, and career objectives. Make it compelling and ATS-friendly. only return text no options or anything else.",
+        },
+        {
+          role: "user",
+          content: userContent,
+        },
+      ],
+    });
+
+    const enhancedContent = response?.choices?.[0]?.message?.content;
+
+    return res.json({ enhancedContent });
+  } catch (error) {
+    res.json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export const enhanceJobDescription = async (req, res) => {
+  try {
+    const { userContent } = req.body;
+    if (!userContent) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+    const response = await AI.chat.completions.create({
+      model: "gemini-2.0-flash",
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are an expert in resume writing. Your task is to enhance the job description of a resume. The job description should be only in 1-2 sentence also highlighting key responsibilities and achievements. Use action verbs and quantifiable results where possible. Make it ATS-friendly. only return text no options or anything else.",
+        },
+        {
+          role: "user",
+          content: userContent,
+        },
+      ],
+    });
+
+    const enhancedContent = response?.choices?.[0]?.message?.content;
+    return res.json({ enhancedContent });
   } catch (error) {
     res.json({
       success: false,

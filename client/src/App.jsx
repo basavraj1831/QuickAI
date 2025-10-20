@@ -11,6 +11,8 @@ import RemoveObject from "./pages/RemoveObject";
 import ReviewResume from "./pages/ReviewResume";
 import Community from "./pages/Community";
 import { Toaster } from "react-hot-toast";
+import BuildResume from "./pages/BuildResume";
+import Preview from "./pages/Preview";
 
 const App = () => {
   
@@ -27,8 +29,12 @@ const App = () => {
           <Route path="remove-background" element={<RemoveBackground />} />
           <Route path="remove-object" element={<RemoveObject />} />
           <Route path="review-resume" element={<ReviewResume />} />
+          <Route path="build-resume/:resumeId" element={<BuildResume />} />
+          <Route path="build-resume" element={<BuildResume />} />
           <Route path="community" element={<Community />} />
         </Route>
+
+        <Route path="view/:resumeId" element={<Preview />} />
       </Routes>
     </div>
   );
